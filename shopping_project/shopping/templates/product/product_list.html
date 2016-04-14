@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load staticfiles i18n thumbnail %}
+
+{% block content %}
+
+<!--banner-->
+<div class="banner-top">
+    <div class="container">
+        <h1>Products</h1>
+        <em></em>
+        <h2><a href="index.html">Home</a><label>/</label>Products</a></h2>
+    </div>
+</div>
+
+
+<div class="product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="mid-popular">
+                    {% for product in page_obj %}
+                        <div class="col-md-4 item-grid1 simpleCart_shelfItem">
+                            <div class=" mid-pop">
+                                <div class="pro-img">
+                                {% for product_image in product.product_image.all %}
+                                    {% if forloop.first %}
+                                        <img src="{{ product_image.image.url }}" class="img-responsive" alt="">
+                                        <div class="zoom-icon ">
+                                            <a class="picture" href="{{ product_image.image.url }}" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
+                                            <a href="{% url 'product_detail' product.pk %}"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                <div class="mid-1">
+                                    <div class="women">
+                                        <div class="women-top">
+                                            <span>{{ product.main_category }}</span>
+                                            <h6><a href="{% url "product_detail" product.pk %}">{{ product.name }}</a></h6>
+                                        </div>
+                                        <div class="img item_add">
+                                            <a href="#"><img src="{% static 'images/ca.png' %}" alt=""></a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="mid-2">
+                                        {% if product.discount_price and product.discount_price != 0 %}
+                                            <p ><label>RM{{ product.price }}</label><em class="item_price">RM{{ product.discount_price }}</em></p>
+                                        {% else %}
+                                            <p ><em class="item_price">RM{{ product.price }}</em></p>
+                                        {% endif %}
+                                        {% comment %}
+                                        <div class="block">
+                                            <div class="starbox small ghosting"> </div>
+                                        </div>
+                                        {% endcomment %}
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="clearfix"></div>
+                </div>
+                {% if is_paginated %}
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+                            <a {% if page_obj.has_previous %}href="?page=1&amp;slug={{ request.GET.slug }}"{% endif %}>{% trans 'First page' %}</a>
+                        </li>
+                        <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+                            <a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}&amp;slug={{ request.GET.slug }}"{% endif %}><span><i class="glyphicon glyphicon-menu-left"></i></span></a>
+                        </li>
+                        {% for page in page_obj.paginator.page_range %}
+                        <li {% if page_obj.number == page %}class="active"{% endif %}>
+                            <a href="?page={{ page }}&amp;slug={{ request.GET.slug }}">{{ page }}</a>
+                        </li>
+                        {% endfor %}
+
+                        <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+                            <a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}&amp;slug={{ request.GET.slug }}"{% endif %}><span><i class="glyphicon glyphicon-menu-right"></i></span></a>
+                        </li>
+                        <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+                            <a {% if page_obj.has_next %}href="?page={{ page_obj.paginator.num_pages }}&amp;slug={{ request.GET.slug }}"{% endif %}>{% trans 'Last page' %}</a>
+                        </li>
+                    </ul>
+                </nav>
+        {% endif %}
+            </div>
+            <div class="col-md-3 product-bottom">
+                <section  class="sky-form">
+                    <h4 class="cate">Discounts</h4>
+                    <div class="row row1 scroll-pane">
+                        <div class="col col-4">
+                            <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Upto - 10% (20)</label>
+                        </div>
+                        <div class="col col-4">
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>40% - 50% (5)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>30% - 20% (7)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>10% - 5% (2)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Other(50)</label>
+                        </div>
+                    </div>
+                </section>
+
+                <section  class="sky-form">
+                    <h4 class="cate">Type</h4>
+                    <div class="row row1 scroll-pane">
+                        <div class="col col-4">
+                            <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Sofa Cum Beds (30)</label>
+                        </div>
+                        <div class="col col-4">
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Bags  (30)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Caps & Hats (30)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Jackets & Coats   (30)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Jeans  (30)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Shirts   (30)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sunglasses  (30)</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Swimwear  (30)</label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="sky-form">
+                    <h4 class="cate">Brand</h4>
+                    <div class="row row1 scroll-pane">
+                        <div class="col col-4">
+                            <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Roadstar</label>
+                        </div>
+                        <div class="col col-4">
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Levis</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Persol</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Nike</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Edwin</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox" ><i></i>New Balance</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Paul Smith</label>
+                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Ray-Ban</label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div class="clearfix"></div>
+</div>
+<br>
+
+
+
+
+{% endblock content %}
+
+{% block bottom_javascript %}
+
+    <!--initiate accordion-->
+    <script type="text/javascript">
+        $(function() {
+            var menu_ul = $('.menu-drop > li > ul'),
+            menu_a  = $('.menu-drop > li > a');
+            menu_ul.hide();
+            menu_a.click(function(e) {
+                e.preventDefault();
+                if(!$(this).hasClass('active')) {
+                    menu_a.removeClass('active');
+                    menu_ul.filter(':visible').slideUp('normal');
+                    $(this).addClass('active').next().stop(true,true).slideDown('normal');
+                } else {
+                    $(this).removeClass('active');
+                    $(this).next().stop(true,true).slideUp('normal');
+                }
+            });
+
+        });
+    </script>
+
+{% endblock bottom_javascript %}

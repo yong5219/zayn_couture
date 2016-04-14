@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load thumbnail staticfiles i18n %}
+
+{% block content %}
+<!--banner-->
+<div class="banner-top">
+    <div class="container">
+        <h1>Edit Profile</h1>
+        <em></em>
+        <h2><a href="{% url 'home' %}">Home</a><label>/</label>Edit Profile</a></h2>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="starter-template">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>Edit Profile<i class="fa fa-play-circle"></i></h1>
+                <br>
+            </div>
+        </div>
+
+        <div class="row vookle-mt20">
+            <div class="col-sm-8">
+                <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                {% include '_form_horizontal.html' %}
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <input type="submit" class="btn btn-default" value="Save" />
+                      <a href="{% url 'home' %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="col-md-4 login-right">
+                 <h3>Advertisment place</h3>
+
+                 <p>Pellentesque neque leo, dictum sit amet accumsan non, dignissim ac mauris. Mauris rhoncus, lectus tincidunt tempus aliquam, odio
+                 libero tincidunt metus, sed euismod elit enim ut mi. Nulla porttitor et dolor sed condimentum. Praesent porttitor lorem dui, in pulvinar enim rhoncus vitae. Curabitur tincidunt, turpis ac lobortis hendrerit, ex elit vestibulum est, at faucibus erat ligula non neque.</p>
+                <a href="{% url 'account_signup' %}" class=" hvr-skew-backward">Register</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

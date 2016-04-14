@@ -1,0 +1,98 @@
+{% extends "staff/base.html" %}
+{% load staticfiles i18n thumbnail %}
+
+{% block content %}
+
+<div class="container mt30">
+    <div class="row mb15">
+        <div class="col-md-6">
+            <form class="form-inline" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="search" id="search" value="{{ search }}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 text-right">
+            <a href="#" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i> Create Product </a> &nbsp;
+
+            <a href="#" target="_blank" class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-print"></i></a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover table-condensed" style="font-size:12px;">
+                <thead>
+                    <tr class="active">
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Discount Price</th>
+                        <th>Quantity</th>
+                        <th>Active?</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in page_obj %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.content }}</td>
+                            {% for a in product.product_image.all %}
+                            {% if forloop.first %}
+                                <td><img src="{{ a.image.url }}" class="img-responsive" alt="" width="200" height="100"></td>
+                            {% endif %}
+                            {% endfor %}
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.discount_price }}</td>
+                            <td>
+                                {% if product.is_active %}<i class="glyphicon glyphicon-ok text-success"></i>
+                                {% else %}<i class="glyphicon glyphicon-remove text-danger"></i>{% endif %}
+                            </td>
+                            <td>
+                            <a href="#" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit"></i></a> &nbsp;
+                            <a href="{% url 'staff_product_detail' product.pk %}" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-cog"></i></a> &nbsp;
+                            <a href="#" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <nav class="pagination">
+                <ul class="pagination">
+                    <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+                        <a {% if page_obj.has_previous %}href="?page=1&amp;slug={{ request.GET.slug }}"{% endif %}>{% trans 'First page' %}</a>
+                    </li>
+                    <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+                        <a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}&amp;slug={{ request.GET.slug }}"{% endif %}><span>&laquo;</span></a>
+                    </li>
+                    {% for page in page_obj.paginator.page_range %}
+                    <li {% if page_obj.number == page %}class="active"{% endif %}>
+                        <a href="?page={{ page }}&amp;slug={{ request.GET.slug }}">{{ page }}</a>
+                    </li>
+                    {% endfor %}
+
+                    <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+                        <a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}&amp;slug={{ request.GET.slug }}"{% endif %}><span>&raquo;</span></a>
+                    </li>
+                    <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+                        <a {% if page_obj.has_next %}href="?page={{ page_obj.paginator.num_pages }}&amp;slug={{ request.GET.slug }}"{% endif %}>{% trans 'Last page' %}</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block bottom_javascript %}
+{% endblock bottom_javascript %}

@@ -1,0 +1,38 @@
+{% load ting_tags %}{% spaceless %}
+{% csrf_token %}
+{% if form.non_field_errors %}
+    <div class="alert alert-error" style="margin-bottom:10px;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        {{ form.non_field_errors }}
+    </div>
+{% endif %}
+{% for field in form %}
+    {% if field.is_hidden %}
+        {{ field }}
+    {% else %}
+        {% if field|field_type:'checkboxinput' %}
+            <div class="checkbox{% if field.errors %} has-error{% endif %}">
+                <label for="id_{{ field.name }}">
+                    {{ field }} {{ field.label }}
+                </label>
+                {% if field.help_text %}
+                    <span class="help-block"><em><small>{{ field.help_text }}</small></em></span>
+                {% endif %}
+                {% if field.errors %}
+                    <span class="help-block">{{ field.errors }}</span>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="form-group{% if field.errors %} has-error{% endif %}">
+                {{ field }}
+                {% if field.help_text %}
+                    <span class="help-block"><em><small>{{ field.help_text }}</small></em></span>
+                {% endif %}
+                {% if field.errors %}
+                    <span class="help-block">{{ field.errors }}</span>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+{% endspaceless %}

@@ -1,0 +1,44 @@
+{% load humanize %}
+<h4>Product Detail</h4>
+<hr>
+<dl class="dl-horizontal">
+    <dt>Name : </dt>
+    <dd>{{ object.name }}</dd>
+
+    <dt>Category : </dt>
+    <dd>{{ object.main_category }}</dd>
+
+    <dt>Content : </dt>
+    <dd>{{ object.content|safe }}</dd>
+
+    <dt>Price : </dt>
+    <dd>{{ object.price }}</dd>
+
+    <dt>Discount Price : </dt>
+    <dd>{{ object.discount_price }}</dd>
+</dl>
+<br>
+<h4>Product UOM</h4>
+<hr>
+<dl class="dl-horizontal">
+    <table class="table table-bordered">
+        {% for product_uom in object.product_uom.all %}
+            <tr class="active">
+                <th>{{ product_uom }}</th>
+            </tr>
+            <tr>
+                <td>{{ product_uom.quantity }} qty</td>
+            </tr>
+        {% endfor %}
+    </table>
+</dl>
+<br>
+<h4>Product Image</h4>
+<hr>
+<div class="row">
+    {% for image in object.product_image.all %}
+        <div class="col-md-3">
+            <img src="{{ image.image.url }}" class="img-responsive" alt="Responsive image" class="img-thumbnail"><br>
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% load i18n staticfiles categories_tags %}
+
+{% block othercss %}
+<link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css" media="all" />
+{% endblock othercss %}
+
+{% block title %}Sign up{% endblock title %}
+
+{% block content %}
+<!--banner-->
+<div class="banner-top">
+    <div class="container">
+        <h1>Product Detail</h1>
+        <em></em>
+        <h2><a href="{% url 'home' %}">Home</a><label>/</label>Product<label>/</label><a href="{% url 'product_list' object.main_category.slug %}">{{ object.main_category }}</a></h2>
+    </div>
+</div>
+{% if messages %}
+    <div class="container">
+        <section id="message">
+            <div class="row">
+                {% for message in messages %}
+                    <div class="span12">
+                        <br>
+                        <div class="alert alert-{% if message.tags != "error" %}{{ message.tags }}{% else %}info{% endif %}">
+                            <a class="close" data-dismiss="alert" href="#">×</a>
+                            {{ message|safe }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+{% endif %}
+<!--Detail-->
+<div class="single">
+
+    <div class="container">
+        <div class="col-md-9">
+            <div class="col-md-5 grid">
+                <div class="flexslider">
+                    <ul class="slides">
+                    {% for product in object.product_image.all %}
+                        <li data-thumb="{{ product.image.url }}">
+                            <div class="thumb-image"> <img src="{{ product.image.url }}" data-imagezoom="true" class="img-responsive"> </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-7 single-top-in">
+                <div class="span_2_of_a1 simpleCart_shelfItem">
+                    <h3>{{ object.name }}</h3>
+                    <p class="in-para"> {{ object.short_discription }}</p>
+                    <div class="price_single">
+                        <span class="reducedfrom item_price">
+                            {% if product.discount_price and product.discount_price != 0 %}
+                                <p ><label>RM{{ product.price }}</label><em class="item_price">RM{{ product.discount_price }}</em></p>
+                            {% else %}
+                                <p ><em class="item_price">RM{{ product.price }}</em></p>
+                            {% endif %}
+                        </span>
+                        {% comment %}
+                        <a href="#">click for offer</a>
+                        {% endcomment %}
+                        <div class="clearfix"></div>
+                    </div>
+                    <h4 class="quick">Quick Overview:</h4>
+                    <p class="quick_desc"> {{ object.quick_overview }}</p>
+                    {% if object.structure == "standalone" %}
+                        <form action="{% url 'cart_add' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="_method" value="{{ object.pk }}" />
+                            <p><input type="submit" class="add-to item_add hvr-skew-backward" value="Add To Cart"/></p>
+                        </form>
+                    {% else %}
+                        <form action="{% url 'cart_add' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="hidden" name="_method" value="{{ object.pk }}" />
+                                <label>Select Size:</label>
+                                <select class="form-control" name="variety_dropdown">
+                                    <option value="None">-------</option>
+                                    {% for child in object.children.all %}
+                                        <option value="{{ child.id }}" {% for quantity in child.product_uom.all %}{% if quantity.quantity <= 0 %}disabled{% endif %}{% endfor %}>
+                                            {{ child.variety_summary }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <p><input type="submit" class="add-to item_add hvr-skew-backward" value="Add To Cart"/></p>
+                        </form>
+                    {% endif %}
+                    <div class="clearfix"> </div>
+                </div>
+
+            </div>
+            <div class="clearfix"> </div>
+            <!---->
+            <div class="tab-head">
+                <nav class="nav-sidebar">
+                    <ul class="nav tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">Product Description</a></li>
+                        <li class=""><a href="#tab2" data-toggle="tab">Additional Information</a></li>
+                        {% comment %}
+                        <li class=""><a href="#tab3" data-toggle="tab">Reviews</a></li>
+                        {% endcomment %}
+                    </ul>
+                </nav>
+                <div class="tab-content one">
+                    <div class="tab-pane active text-style" id="tab1">
+                        <div class="facts">
+                            {{ object.content|safe }}
+                        </div>
+
+                    </div>
+                    <div class="tab-pane text-style" id="tab2">
+
+                        <div class="facts">
+                            <p > Information about the delivery fee or terms and conditions </p>
+                            <ul >
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Multimedia Systems</li>
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Digital media adapters</li>
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Set top boxes for HDTV and IPTV Player  </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    {% comment %}
+                    <div class="tab-pane text-style" id="tab3">
+
+                        <div class="facts">
+                            <p>  </p>
+                            <ul>
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Research</li>
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Design and Development</li>
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Porting and Optimization</li>
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>System integration</li>
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Verification, Validation and Testing</li>
+                                <li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Maintenance and Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endcomment %}
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!---->
+            </div>
+
+<div class="col-md-3 product-bottom product-at">
+    <!--categories-->
+    <div class=" rsidebar span_1_of_left">
+        <h4 class="cate">Categories</h4>
+        <ul class="menu-drop">
+            {% for menu in menus %}
+                {% if menu.get_children %}
+                    <li class="item{{ forloop.counter }}"><a href="#">{{ menu }} </a>
+                        <ul class="cute">
+                            {% for child in menu.get_children %}
+                                <li class="subitem{{ forloop.counter }}"><a href="{% url 'product_list' child.slug %}">{{ child }} </a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% comment %}
+    <section  class="sky-form">
+        <h4 class="cate">Discounts</h4>
+        <div class="row row1 scroll-pane">
+            <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Upto - 10% (20)</label>
+            </div>
+            <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>40% - 50% (5)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>30% - 20% (7)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>10% - 5% (2)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Other(50)</label>
+            </div>
+        </div>
+    </section>
+    <section  class="sky-form">
+        <h4 class="cate">Type</h4>
+        <div class="row row1 scroll-pane">
+            <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Sofa Cum Beds (30)</label>
+            </div>
+            <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Bags  (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Caps & Hats (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Jackets & Coats   (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Jeans  (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Shirts   (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sunglasses  (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Swimwear  (30)</label>
+            </div>
+        </div>
+    </section>
+    <section  class="sky-form">
+        <h4 class="cate">Brand</h4>
+        <div class="row row1 scroll-pane">
+            <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Roadstar</label>
+            </div>
+            <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Levis</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Persol</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Nike</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Edwin</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox" ><i></i>New Balance</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Paul Smith</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Ray-Ban</label>
+            </div>
+        </div>
+    </section>
+    {% endcomment %}
+</div>
+<div class="clearfix"> </div>
+</div>
+</div>
+<br>
+{% endblock content %}
+
+{% block bottom_javascript %}
+<script type="text/javascript" src="{% static 'js/imagezoom.js' %}"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script defer src="{% static 'js/jquery.flexslider.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/flexslider.css' %}" type="text/css" media="screen" />
+<script src="{% static 'js/simpleCart.min.js' %}"></script>
+
+<script type="text/javascript">
+    // Can also be used with $(document).ready()
+    $(window).load(function() {
+        $('.flexslider').flexslider({
+
+            animation: "slide",
+            controlNav: "thumbnails"
+    });
+
+    $(document).ready(function() {
+        $('.popup-with-zoom-anim').magnificPopup({
+            type: 'inline',
+            fixedContentPos: false,
+            fixedBgPos: true,
+            overflowY: 'auto',
+            closeBtnInside: true,
+            preloader: false,
+            midClick: true,
+            removalDelay: 300,
+            mainClass: 'my-mfp-zoom-in'
+        });
+
+    });
+
+
+});
+</script>
+
+
+{% endblock bottom_javascript %}

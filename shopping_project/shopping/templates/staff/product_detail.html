@@ -1,0 +1,21 @@
+{% extends "staff/base.html" %}
+{% load staticfiles i18n thumbnail %}
+
+{% block content %}
+
+<div class="container mt30">
+    <div class="row mb15">
+        <div class="col-md-12 text-right">
+            <a href="#" class="btn btn-success btn-sm"><i class="glyphicon glyphicon glyphicon-cog"></i> EDIT </a> &nbsp;
+            <a href="#" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-chevron-left"></i> BACK </a>
+        </div>
+    </div>
+    <hr>
+    <div class="row mb15">
+        <div class="col-md-8 col-md-offset-2">
+            {% include 'staff/_product_info.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

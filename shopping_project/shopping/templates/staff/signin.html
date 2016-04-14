@@ -1,0 +1,26 @@
+{% extends "staff/base.html" %}
+
+{% block content %}
+<div class="container mt30">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form method="POST" action="{% url 'staff_signin' %}" role="form">
+                <legend>Staff Login</legend>
+                {% include "staff/_form.html" %}
+                <hr />
+                <button type="submit" class="btn btn-success">Login</button>
+                &nbsp;&nbsp;&nbsp;
+                <a href="#" title="Forgot Password?">Forgot Password?</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block bottom_javascript %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('input[type=text], input[type=password]').addClass('form-control');
+        });
+    </script>
+{% endblock bottom_javascript %}

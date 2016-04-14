@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}{% spaceless %}
+
+{% block title %}{% trans 'Sign up' %}{% endblock title %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">
+                <div class="page-header mt0">
+                    <h1 class="mt0">{% trans 'You have been signed up!' %}</h1>
+                </div>
+                {% if account_activation_required %}
+                    <p>{% blocktrans %}An e-mail with an activation link for your account has already been sent to you. You may choose to activate your account within the next 7 days. If your account is not activated within those {{ account_activation_days }} days, all information you have provided for the sign up process will be removed from our servers.{% endblocktrans %}</p>
+                    <p><a href="{% url 'home' %}">Back to Main page</a></p>
+                    <p>{% blocktrans %}The Zayn Couture Team.{% endblocktrans %}</p>
+                {% else  %}
+                    <p>{% blocktrans %}You can now use the supplied credentials to signin.{% endblocktrans %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% endspaceless %}
