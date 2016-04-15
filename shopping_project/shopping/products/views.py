@@ -12,8 +12,7 @@ class ProductList(ListView):
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
-        # slug = self.request.GET.get('slug', '')
-        object_list = self.model.objects.filter(main_category__slug=self.category, is_active=True).exclude(structure="CHILD")
+        object_list = self.model.objects.filter(main_category__slug=self.category.slug, is_active=True).exclude(structure="CHILD")
         return object_list
 
     def get_context_data(self, **kwargs):
