@@ -141,7 +141,7 @@ class Profile(TimeStampedModel):
     user = models.OneToOneField(User, unique=True, verbose_name=_('user'), related_name='user_profile')
     gender = models.CharField(_("Gender"), max_length=20, choices=GENDER_CHOICES)
     contact_no = models.CharField(_("Contact No"), max_length=25)
-    birth_date = models.DateField(_("Date of Birth"), help_text=_("Format: YYYY-MM-DD"))
+    # birth_date = models.DateField(_("Date of Birth"), help_text=_("Format: YYYY-MM-DD"))
     country = models.CharField(_("Country"), max_length=15, default='Malaysia', choices=COUNTRY_CHOICES)
     state = models.CharField(_("State"), max_length=20, choices=STATE_CHOICES)
     address = models.TextField(_("Address"), max_length=255)
@@ -158,30 +158,30 @@ class Profile(TimeStampedModel):
             name = "%(username)s" % {'username': self.user.username}
         return name.strip()
 
-    def _calc_age(self):
-        if self.birth_date:
-            today = datetime.date.today()
+    # def _calc_age(self):
+    #     if self.birth_date:
+    #         today = datetime.date.today()
 
-            try:  # raised when birth date is February 29 and the current year is not a leap year
-                birthday = self.birth_date.replace(year=today.year)
-            except ValueError:
-                birthday = self.birth_date.replace(year=today.year, day=self.birth_date.day-1)
-            except:
-                return 0
+    #         try:  # raised when birth date is February 29 and the current year is not a leap year
+    #             birthday = self.birth_date.replace(year=today.year)
+    #         except ValueError:
+    #             birthday = self.birth_date.replace(year=today.year, day=self.birth_date.day-1)
+    #         except:
+    #             return 0
 
-            if birthday > today:
-                actual_age = today.year - self.birth_date.year - 1
-            else:
-                actual_age = today.year - self.birth_date.year
+    #         if birthday > today:
+    #             actual_age = today.year - self.birth_date.year - 1
+    #         else:
+    #             actual_age = today.year - self.birth_date.year
 
-            if actual_age < 0:
-                return 0
-            else:
-                return actual_age
-        else:
-            return 0
+    #         if actual_age < 0:
+    #             return 0
+    #         else:
+    #             return actual_age
+    #     else:
+    #         return 0
 
-    age = property(_calc_age)
+    # age = property(_calc_age)
 
 
 @receiver(post_save, sender=AccountSignup)

@@ -19,7 +19,7 @@ class UserAdmin(UserAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'birth_date', 'age', 'state', 'country', )
+    list_display = ('user', 'state', 'country', )
     search_fields = ['user__first_name', 'user__last_name', 'user__email', ]
     date_hierarchy = 'created'
 

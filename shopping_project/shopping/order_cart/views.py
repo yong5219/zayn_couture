@@ -56,7 +56,7 @@ def Add(request):
             product = Product.objects.get(pk=product_id)
 
             # check is the line is existing, if yes show error message else show success message
-            exists_line = Line.objects.filter(product__id=product_id).exists()
+            exists_line = Line.objects.filter(product__id=product_id, cart__id=cart.id).exists()
             if exists_line:
                 messages.error(request, u'This product size already in your shopping cart, please check your shopping cart.')
             else:

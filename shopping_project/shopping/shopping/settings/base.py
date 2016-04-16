@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'orders',
     'navigations',
     'staff',
+    'wish_lists',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -171,6 +172,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
+# Email settings
+EMAIL_BACKEND = 'post_office.EmailBackend'
+
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = 'zayncouture_noreply'
+EMAIL_HOST_PASSWORD = 'zayncouture123'
+EMAIL_SUBJECT_PREFIX = '[Zayn Couture] '
+DEFAULT_FROM_EMAIL = 'noreply@zayncouture.com'
+SERVER_EMAIL = 'noreply@zayncouture.com'
+
 
 # Django Suit configuration example
 SUIT_CONFIG = {
@@ -218,5 +229,5 @@ def skip_unreadable_post(record):
 
 USE_HTTPS = False
 
-LOGIN_URL = '/accounts/signin'
+LOGIN_URL = '/account/signin/'
 LOGIN_REDIRECT_URL = '/'

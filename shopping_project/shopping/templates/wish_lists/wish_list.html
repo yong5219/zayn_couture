@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+
+{% block title %}Wish List{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="check-out">
+    <div class="bs-example4" data-example-id="simple-responsive-table">
+        <h1><u>Wish List</u></h1>
+    <div class="table-responsive">
+    <table class="table-heading simpleCart_shelfItem">
+        <tr>
+            <th class="table-grid">Item</th>
+            <th>Prices</th>
+            <th>Action</th>
+        </tr>
+        {% for product_line in wish_list.wish_list.all %}
+            <tr class="cart-header">
+                <td class="ring-in"><a href="{% if product_line.product.structure == "child" %}{% url "product_detail" product_line.product.parent.pk %}{% else %}{% url "product_detail" product_line.product.pk %}{% endif %}" class="at-in">
+                <img src="{% for product in product_line.product_image.all %}{% if forloop.first %}{{ product.image.url }}{% endif %}{% endfor %}" class="img-responsive" alt=""></a>
+                <div class="sed">
+                    <h5><a href="{% if product_line.product.structure == "child" %}{% url "product_detail" product_line.product.parent.pk %}{% else %}{% url "product_detail" product_line.product.pk %}{% endif %}">{% if product_line.product.structure == "child" %}{{ product_line.product.parent.name }}{% else %}{{ product_line.product.name }}{% endif %}</a></h5>
+                    <p>
+                        {% if product_line.product.structure == "child" %}
+                            {{ product_line.product.parent.short_discription }}
+                        {% else %}
+                            {{ product_line.product.short_discription }}
+                        {% endif %}
+                    </p>
+                </div>
+                </td>
+                <div class="clearfix"> </div>
+                <td class="item_price">{% if product_line.product.discount > "0" %}{{ product_line.product.discount_price }}{% else %}{{ product_line.product.price }}{% endif %}</td>
+                <td>
+                    <div class="produced">
+                        <a href="single.html" class="hvr-skew-backward">Remove From Wish List</a>
+                    </div>
+                </td>
+
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+    </div>
+</div>
+<br>
+{% endblock content %}

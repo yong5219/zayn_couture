@@ -68,6 +68,12 @@
                     </div>
                     <h4 class="quick">Quick Overview:</h4>
                     <p class="quick_desc"> {{ object.quick_overview }}</p>
+                    <div class="wish-list">
+                        <ul>
+                            <li class="wish"><a href="{% url "wish_list_add" object.pk %}"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>Add to Wishlist</a></li>
+                        </ul>
+                    </div>
+                    <br>
                     {% if object.structure == "standalone" %}
                         <form action="{% url 'cart_add' %}" method="POST">
                             {% csrf_token %}
@@ -150,7 +156,7 @@
             <!---->
             </div>
 
-<div class="col-md-3 product-bottom product-at">
+<div class="col-md-3 product-bottom">
     <!--categories-->
     <div class=" rsidebar span_1_of_left">
         <h4 class="cate">Categories</h4>
@@ -234,6 +240,24 @@
 
 <script type="text/javascript">
     // Can also be used with $(document).ready()
+    $(function() {
+        var menu_ul = $('.menu-drop > li > ul'),
+        menu_a  = $('.menu-drop > li > a');
+        menu_ul.hide();
+        menu_a.click(function(e) {
+            e.preventDefault();
+            if(!$(this).hasClass('active')) {
+                menu_a.removeClass('active');
+                menu_ul.filter(':visible').slideUp('normal');
+                $(this).addClass('active').next().stop(true,true).slideDown('normal');
+            } else {
+                $(this).removeClass('active');
+                $(this).next().stop(true,true).slideUp('normal');
+            }
+        });
+
+    });
+
     $(window).load(function() {
         $('.flexslider').flexslider({
 

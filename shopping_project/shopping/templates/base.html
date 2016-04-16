@@ -74,11 +74,11 @@
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'account_user_profile' request.user %}">Welcome, {{ user.get_username }}</a></li>
                             <li><a href="{% url 'account_signout' %}">Logout</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="{% url 'cart_list' %}">Checkout</a></li>
                         {% else %}
                             <li><a href="{% url 'account_signin' %}">Login</a></li>
                             <li><a href="{% url 'account_signup' %}">Register</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="{% url 'cart_list' %}">Checkout</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -164,20 +164,19 @@
                 <div class="col-sm-2 search-right">
                     <ul class="heart">
                         <li>
-                            <a href="wishlist.html" >
+                            <a href="{% url "wish_list_list" %}" >
                                 <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                            </a></li>
-                            <li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i></a></li>
-                        </ul>
-                        <div class="cart box_1">
-                            <a href="checkout.html">
-                                <h3> <div class="total">
-                                    $ {% for order in request.user.order_set.all %}
-                                        {{ order.price }}
-                                    {% endfor %}
-                                    <img src="{% static 'images/cart.png' %}" alt=""/></h3>
                             </a>
-                            </div>
+                        </li>
+                        <li>
+                            <a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i></a>
+                        </li>
+                        <li>
+                            <a href="{% url "cart_list" %}">
+                                    <img src="{% static 'images/cart.png' %}" alt=""/>
+                            </a>
+                        </li>
+                    </ul>
                             <div class="clearfix"> </div>
 
 <!----->
