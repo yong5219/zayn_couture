@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load thumbnail staticfiles i18n %}
+
+{% block content %}
+<!--banner-->
+<div class="banner-top">
+    <div class="container">
+        <h1>Checkout & Payment</h1>
+        <em></em>
+        <h2><a href="{% url 'home' %}">Home</a><label>/</label>Cart / Checkout & Payment</a></h2>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="starter-template">
+
+        <form class="form-horizontal" method="post" action="." enctype="multipart/form-data">
+            <div class="row vookle-mt20">
+
+                <div class="col-sm-6">
+                    <h2>Shipping Address<i class="fa fa-play-circle"></i></h2>
+                    <hr>
+                    {% include '_form_horizontal.html' %}
+
+                </div>
+
+
+                <div class="col-md-6 login-right">
+                    <h2>Order Product<i class="fa fa-play-circle"></i></h2>
+                    <hr>
+                    {% for product_line in order_cart.lines.all %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="{% if product_line.product.structure == "child" %}{% url "product_detail" product_line.product.parent.pk %}{% else %}{% url "product_detail" product_line.product.pk %}{% endif %}">
+                                <img src="{% if product_line.product.structure == "child" %}{% for product in product_line.product.parent.product_image.all %}{% if forloop.first %}{{ product.image.url }}{% endif %}{% endfor %}{% else %}{% for product in product_line.product.product_image.all %}{% if forloop.first %}{{ product.image.url }}{% endif %}{% endfor %}{% endif %}" class="img-responsive" alt="">
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><a href="{% if product_line.product.structure == "child" %}{% url "product_detail" product_line.product.parent.pk %}{% else %}{% url "product_detail" product_line.product.pk %}{% endif %}">{% if product_line.product.structure == "child" %}{{ product_line.product.parent.name }}{% else %}{{ product_line.product.name }}{% endif %}</a> x {{ product_line.quantity }}</h5>
+                            <p>
+                                {% if product_line.product.structure == "child" %}
+                                    {{ product_line.product.parent.short_discription }}
+                                {% else %}
+                                    {{ product_line.product.short_discription }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            RM {{ product_line.price_incl_tax }}
+                        </div>
+
+
+                    </div>
+                    <hr>
+                    {% endfor %}
+                    <br>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <input type="submit" class="btn btn-default" value="Save" />
+                          <a href="{% url 'home' %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+<form method="post" name="ePayment" action="https://www.mobile88.com/ePayment/entry.asp">
+    <input type="hidden" name="MerchantCode" value="M03228">
+    <input type="hidden" name="PaymentId" value="">
+    <input type="hidden" name="RefNo" value="A00000001">
+    <input type="hidden" name="Amount" value="1.00">
+    <input type="hidden" name="Currency" value="MYR">
+    <input type="hidden" name="ProdDesc" value="Photo Print">
+    <input type="hidden" name="UserName" value="testinguser">
+    <input type="hidden" name="UserEmail" value="yong_5219@hotmail.com">
+    <input type="hidden" name="UserContact" value="0126500100">
+    <input type="hidden" name="Remark" value="">
+    <input type="hidden" name="Lang" value="UTF-8">
+    <input type="hidden" name="Signature" value="84dNMbfgjLMS42IqSTPqQ99cUGA=">
+    <input type="hidden" name="ResponseURL" value="http://zayncouture.webfactional.com/order/checkout/">
+    <input type="hidden" name="BackendURL" value="">
+    <input type="submit" value="Proceed with Payment" name="Submit">
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+{% endblock content %}

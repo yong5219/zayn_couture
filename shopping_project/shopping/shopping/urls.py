@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^seller/', include('staff.urls')),
     url(r'^cart/', include('order_cart.urls')),
     url(r'^wish-list/', include('wish_lists.urls')),
+    url(r'^order/', include('orders.urls')),
     url(r'^about/', TemplateView.as_view(template_name="about.html"), name="about"),
 ]
 

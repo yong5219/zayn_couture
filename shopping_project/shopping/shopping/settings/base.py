@@ -57,7 +57,6 @@ INSTALLED_APPS = [
 
     'shopping',
     'order_cart',
-    'cart',
     'homes',
     'accounts',
     'products',
@@ -65,6 +64,8 @@ INSTALLED_APPS = [
     'navigations',
     'staff',
     'wish_lists',
+    'django_ipay88',
+    'address',
 ]
 
 MIDDLEWARE_CLASSES = [

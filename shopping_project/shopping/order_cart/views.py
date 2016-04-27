@@ -70,6 +70,23 @@ def Add(request):
 
 
 @login_required
+def DeleteLine(request):
+    product_line_pk = request.POST['_method']
+
+    order_cart = OrderCart.objects.get_current_cart(request.user)
+
+    exists_line = Line.objects.get(id=product_line_pk)
+
+    if exists_line.cart.pk == order_cart.pk:
+        exists_line.delete()
+        messages.success(request, u'Your product has been deleted.')
+    else:
+        messages.error(request, u'This product is not in your shopping cart.')
+
+    return redirect('cart_list')
+
+
+@login_required
 def List(request):
     cart = OrderCart.objects.get_current_cart(request.user)
 

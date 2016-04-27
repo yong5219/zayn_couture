@@ -4,6 +4,23 @@
 {% block title %}Order Cart{% endblock title %}
 
 {% block content %}
+{% if messages %}
+    <div class="container">
+        <section id="message">
+            <div class="row">
+                {% for message in messages %}
+                    <div class="span12">
+                        <br>
+                        <div class="alert alert-{% if message.tags != "error" %}{{ message.tags }}{% else %}info{% endif %}">
+                            <a class="close" data-dismiss="alert" href="#">×</a>
+                            {{ message|safe }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+{% endif %}
 <div class="container">
     <div class="check-out">
     <div class="bs-example4" data-example-id="simple-responsive-table">
@@ -13,13 +30,16 @@
             <th class="table-grid">Item</th>
             <th>Quantity</th>
             <th>Prices</th>
+            <th>Action</th>
         </tr>
-        <tr class="cart-header">
         {% for product_line in cart.lines.all %}
+        <tr class="cart-header">
             <td class="ring-in"><a href="{% if product_line.product.structure == "child" %}{% url "product_detail" product_line.product.parent.pk %}{% else %}{% url "product_detail" product_line.product.pk %}{% endif %}" class="at-in">
-            <img src="{% for product in product_line.product_image.all %}{% if forloop.first %}{{ product.image.url }}{% endif %}{% endfor %}" class="img-responsive" alt=""></a>
+            <img src="{% if product_line.product.structure == "child" %}{% for product in product_line.product.parent.product_image.all %}{% if forloop.first %}{{ product.image.url }}{% endif %}{% endfor %}{% else %}{% for product in product_line.product.product_image.all %}{% if forloop.first %}{{ product.image.url }}{% endif %}{% endfor %}{% endif %}" class="img-responsive" alt=""></a>
             <div class="sed">
-                <h5><a href="{% if product_line.product.structure == "child" %}{% url "product_detail" product_line.product.parent.pk %}{% else %}{% url "product_detail" product_line.product.pk %}{% endif %}">{% if product_line.product.structure == "child" %}{{ product_line.product.parent.name }}{% else %}{{ product_line.product.name }}{% endif %}</a></h5>
+                <h5>
+                    <a href="{% if product_line.product.structure == "child" %}{% url "product_detail" product_line.product.parent.pk %}{% else %}{% url "product_detail" product_line.product.pk %}{% endif %}">{% if product_line.product.structure == "child" %}{{ product_line.product.parent.name }}{% else %}{{ product_line.product.name }}{% endif %}</a>
+                </h5>
                 <p>
                     {% if product_line.product.structure == "child" %}
                         {{ product_line.product.parent.short_discription }}
@@ -29,17 +49,27 @@
                 </p>
             </div>
             <div class="clearfix"> </div>
-            <div class="close3"> </div></td>
             <td class="item_price">{{ product_line.quantity }}</td>
             <td class="item_price">{% if product_line.product.discount > "0" %}{{ product_line.product.discount_price }}{% else %}{{ product_line.product.price }}{% endif %}</td>
+            <td class="item_price">
+            <form action="{% url 'cart_remove_line' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="{{ product_line.pk }}" />
+                <p><input type="submit" class="add-to item_add hvr-skew-backward" value="Remove"/></p>
+            </form>
+            </td>
+        {% empty %}
+            <td>Currently don't have product in your shopping cart.</td>
+
         </tr>
         {% endfor %}
+
     </table>
     </div>
     </div>
     <div class="produced">
-    <a href="single.html" class="hvr-skew-backward">Produced To Buy</a>
-     </div>
+        <a href="{% url 'order_checkout' %}" class="hvr-skew-backward">Produced To Buy</a>
+    </div>
     </div>
 </div>
 <br>
