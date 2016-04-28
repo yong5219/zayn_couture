@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
 
 from orders.forms import CheckOutForm
 from order_cart.models import OrderCart
@@ -15,6 +16,7 @@ from order_cart.models import OrderCart
 
 
 @login_required
+@csrf_exempt
 def checkout(request):
     order_cart = OrderCart.objects.get_current_cart(request.user)
     if order_cart.lines.count() > 0:
@@ -44,6 +46,7 @@ def checkout(request):
 
 
 @login_required
+@csrf_exempt
 def checkout_postback(request):
     order_cart = OrderCart.objects.get_current_cart(request.user)
     if order_cart.lines.count() > 0:
