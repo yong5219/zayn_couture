@@ -67,6 +67,7 @@
         </form>
 
 <form method="post" name="ePayment" action="https://www.mobile88.com/ePayment/entry.asp">
+{% csrf_token %}
     <input type="hidden" name="MerchantCode" value="M03228">
     <input type="hidden" name="PaymentId" value="">
     <input type="hidden" name="RefNo" value="A00000001">
