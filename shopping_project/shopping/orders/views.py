@@ -54,6 +54,7 @@ def checkout_postback(request):
 
         if request.method == 'POST':
             # return redirect('home')
+            status = request.POST['Status']
             form = CheckOutForm(request.POST, initial={'cart': order_cart.pk, 'user': order_cart.owner.pk, })
             if form.is_valid():
 
@@ -67,7 +68,7 @@ def checkout_postback(request):
                     messages.error(request, u'Order failed. Please try again!2')
                 return redirect('cart_list')
             else:
-                messages.error(request, u'Order failed. Please try again!3')
+                messages.error(request, u'[%s]Order failed. Please try again!3' % status)
                 return redirect('cart_list')
                 # print form.errors
     else:
