@@ -41,7 +41,7 @@ def checkout(request):
                             'UserEmail': 'yong_5219@hotmail.com', 'UserContact': '0162926391', 'Remark': '',
                             'Lang': 'UTF-8', 'Signature': '84dNMbfgjLMS42IqSTPqQ99cUGA',
                             'ResponseURL': 'http://zayncouture.webfactional.com/order/checkout-postback/', 'BackendURL': ''}
-                body = urllib.parse.urlencode(data)
+                body = urllib.urlencode(data)
                 h = httplib2.Http()
                 resp, content = h.request("https://www.mobile88.com/ePayment/entry.asp", method="POST", body=body)
                 # return HttpResponseRedirect(content)
