@@ -70,7 +70,7 @@ def checkout_postback(request):
                     messages.error(request, u'Order failed. Please try again!2')
                 return redirect('cart_list')
             else:
-                messages.error(request, u'[%s][%s][%s]Order failed. Please try again!3' % status % errdesc % transid)
+                messages.error(request, u'[%s][%s][%s]Order failed. Please try again!3' % (status, errdesc, transid))
                 return redirect('cart_list')
                 # print form.errors
     else:
