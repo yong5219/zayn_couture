@@ -25,10 +25,7 @@ def checkout(request):
         if request.method == 'POST':
             form = CheckOutForm(request.POST, initial={'cart': order_cart.pk, 'user': order_cart.owner.pk, })
             if form.is_valid():
-                payload = {'MerchantCode': 'M03228', 'PaymentId': '', 'RefNo': 'A00000001', 'Amount': '1.00', 'Currency': 'MYR',
-                            'ProdDesc': 'clothing product', 'UserName': 'testinguser', 'UserEmail': 'yong_5219@hotmail.com',
-                            'UserContact': '0162926391', 'Remark': '', 'Lang': 'UTF-8', 'Signature': '84dNMbfgjLMS42IqSTPqQ99cUGA',
-                            'ResponseURL': 'http://zayncouture.webfactional.com/order/checkout-postback/', 'BackendURL': ''}
+                payload = {'MerchantCode': 'M03228', 'PaymentId': '', 'RefNo': 'A00000001', 'Amount': '1.00', 'Currency': 'MYR', 'ProdDesc': 'clothing product', 'UserName': 'testinguser', 'UserEmail': 'yong_5219@hotmail.com', 'UserContact': '0162926391', 'Remark': '', 'Lang': 'UTF-8', 'Signature': '84dNMbfgjLMS42IqSTPqQ99cUGA', 'ResponseURL': 'http://zayncouture.webfactional.com/order/checkout-postback/', 'BackendURL': ''}
                 r = requests.post('https://www.mobile88.com/ePayment/entry.asp', params=payload)
                 print(r.url)
                 return HttpResponseRedirect(r.url)
