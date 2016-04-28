@@ -63,10 +63,10 @@ def checkout_postback(request):
                     return redirect('home')
                 else:
                     messages.error(request, u'Order failed. Please try again!')
-                return redirect('order_checkout')
+                return redirect('cart_list')
             else:
                 messages.error(request, u'Order failed. Please try again!')
-                return redirect('order_checkout')
+                return redirect('cart_list')
                 # print form.errors
     else:
         messages.error(request, u'Your have no product in your order cart.')
