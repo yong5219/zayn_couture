@@ -44,7 +44,7 @@ def checkout(request):
                 body = urllib.urlencode(data)
                 h = httplib2.Http()
                 resp, content = h.request("https://www.mobile88.com/ePayment/entry.asp", method="POST", body=body)
-                # return HttpResponseRedirect(content)
+                return HttpResponseRedirect(content)
 
                 # if status == 1:
                 #     form.save(user=request.user, cart=order_cart)
