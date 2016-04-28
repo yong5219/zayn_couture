@@ -50,7 +50,7 @@ def checkout_postback(request):
         form = CheckOutForm(initial={'cart': order_cart.pk, 'user': order_cart.owner.pk, })
 
         if request.method == 'POST':
-            return redirect('home')
+            # return redirect('home')
             form = CheckOutForm(request.POST, initial={'cart': order_cart.pk, 'user': order_cart.owner.pk, })
             if form.is_valid():
 
